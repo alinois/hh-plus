@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import { Group, Text, Input, Button } from "@mantine/core";
 import { IconSearch } from "@tabler/icons-react";
 import './ListSearch.scss';
@@ -11,8 +12,15 @@ interface ListSearchProps {
 const ListSearch = ({ searchQuery, setSearchQuery, setPage }: ListSearchProps) => {
   const icon = <IconSearch size={16} />;
 
+  const [inputValue, setInputValue] = useState(searchQuery);
+
+  useEffect(() => {
+    setInputValue(searchQuery);
+  }, [searchQuery]);
+
   const handleSearch = () => {
-    setPage(0); // сброс на первую страницу
+    setSearchQuery(inputValue.trim());
+    setPage(0);
   };
 
   return (
@@ -30,8 +38,8 @@ const ListSearch = ({ searchQuery, setSearchQuery, setPage }: ListSearchProps) =
           leftSectionPointerEvents="none"
           leftSection={icon}
           placeholder="Должность или название компании"
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.currentTarget.value)}
+          value={inputValue}
+          onChange={(e) => setInputValue(e.currentTarget.value)}
           onKeyDown={(e) => e.key === "Enter" && handleSearch()}
         />
         <Button

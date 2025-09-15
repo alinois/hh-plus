@@ -27,7 +27,8 @@ export async function fetchVacancies({
   });
 
   if (text) params.set('text', text);
-  if (skills.length > 0) params.set('skill_set', skills.join(','));
+
+  skills.forEach(skill => params.append('skill_set[]', skill));
 
   const url = `https://api.hh.ru/vacancies?${params.toString()}`;
 
@@ -37,9 +38,8 @@ export async function fetchVacancies({
     },
   });
 
-  if (!response.ok) {
-    throw new Error(`Ошибка: ${response.status}`);
-  }
-
+  if (!response.ok) throw new Error(`Ошибка: ${response.status}`);
   return response.json();
 }
+
+

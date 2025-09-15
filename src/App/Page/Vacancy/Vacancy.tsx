@@ -13,7 +13,6 @@ const Vacancy = () => {
   const [page, setPage] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
 
-  // фильтры
   const [searchQuery, setSearchQuery] = useState('');
   const [skills, setSkills] = useState(['TypeScript', 'JavaScript', 'React']);
 
@@ -34,7 +33,11 @@ const Vacancy = () => {
 
   return (
     <Group className="vacancy">
-      <ListSearch searchQuery={searchQuery} setSearchQuery={setSearchQuery} setPage={setPage} />
+      <ListSearch
+        searchQuery={searchQuery}
+        setSearchQuery={setSearchQuery}
+        setPage={setPage}
+      />
 
       <Group className="search-params">
         <Skills skills={skills} setSkills={setSkills} />

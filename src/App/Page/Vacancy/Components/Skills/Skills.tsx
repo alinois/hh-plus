@@ -5,7 +5,7 @@ import './Skills.scss'
 
 interface SkillsProps {
   skills: string[];
-  setSkills: (skills: string[]) => void;
+  setSkills: React.Dispatch<React.SetStateAction<string[]>>;
 }
 
 const Skills = ({ skills, setSkills }: SkillsProps) => {
@@ -14,14 +14,15 @@ const Skills = ({ skills, setSkills }: SkillsProps) => {
   const handleAdd = () => {
     const skill = text.trim();
     if (skill && !skills.includes(skill)) {
-      setSkills([...skills, skill]);
+      setSkills(prev => [...prev, skill]);
       setText("");
     }
   };
 
   const handleRemove = (skillToRemove: string) => {
-    setSkills(skills.filter((s) => s !== skillToRemove));
+    setSkills(prev => prev.filter(s => s !== skillToRemove));
   };
+  
 
   return (
     <Group className="skills-border">
