@@ -14,7 +14,7 @@ const Skills = ({ skills, setSkills }: SkillsProps) => {
   const handleAdd = () => {
     const skill = text.trim();
     if (skill && !skills.includes(skill)) {
-      setSkills(prev => [...prev, skill]);
+      setSkills(skills => [...skills, skill]);
       setText("");
     }
   };
@@ -39,6 +39,7 @@ const Skills = ({ skills, setSkills }: SkillsProps) => {
             />
           </PillsInput>
           <Button
+            data-testid="addSkill-button"
             className="skills-add-button"
             variant="filled"
             radius="md"

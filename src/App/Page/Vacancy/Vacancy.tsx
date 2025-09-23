@@ -5,11 +5,11 @@ import Skills from "./Components/Skills/Skills";
 import Titles from "./Components/Titles/Titles";
 import { Cities } from "./Components/Cities/Cities";
 import { fetchVacancies } from "../../../api/vacancy-fetch";
-import type { Vacancy } from "../../../types";
+import type { VacancyType } from "../../../types";
 import "./Vacancy.scss";
 
 const Vacancy = () => {
-  const [vacancies, setVacancies] = useState<Vacancy[]>([]);
+  const [vacancies, setVacancies] = useState<VacancyType[]>([]);
   const [page, setPage] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
 

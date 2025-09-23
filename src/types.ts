@@ -2,7 +2,7 @@ export interface Skill {
   name: string;
 }
 
-export interface Vacancy {
+export interface VacancyType {
   id: string;
   name: string;
 

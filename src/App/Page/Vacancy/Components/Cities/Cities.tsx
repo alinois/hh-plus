@@ -9,7 +9,7 @@ export const Cities = () => {
     <Card className="skills" radius="md">
         <Select
             placeholder="Все города"
-            data={['Все города', 'Москва', 'Санкт-Питербург']}
+            data={['Все города', 'Москва', 'Санкт-Петербург']}
             leftSectionPointerEvents="none"
             leftSection={icon}
         />        

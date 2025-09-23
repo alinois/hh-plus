@@ -1,11 +1,11 @@
 import "./Titles.scss";
 import { Card, Text, Badge, Button, Group } from "@mantine/core";
-import type { Vacancy } from "../../../../../types";
+import type { VacancyType } from "../../../../../types";
 import { formatSalary, formatSchedule, getScheduleClass } from "./Titles-logic"
 import classNames from "classnames";
 
 type TitlesProps = {
-  vacancy: Vacancy;
+  vacancy: VacancyType;
 };
 
 const Titles = ({ vacancy }: TitlesProps) => {
