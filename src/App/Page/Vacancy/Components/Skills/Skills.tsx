@@ -14,7 +14,7 @@ const Skills = ({ skills, setSkills }: SkillsProps) => {
   const handleAdd = () => {
     const skill = text.trim();
     if (skill && !skills.includes(skill)) {
-      setSkills(skills => [...skills, skill]);
+      setSkills(prev => [...prev, skill]);
       setText("");
     }
   };
