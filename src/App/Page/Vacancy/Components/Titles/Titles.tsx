@@ -32,7 +32,13 @@ const Titles = ({ vacancy }: TitlesProps) => {
 
             <Group className="title-buttons">
                 <Button className="title-buttons-view">Смотреть вакансии</Button>
-                <Button className="title-buttons-reply">Откликнуться</Button>
+                <Button className="title-buttons-reply"
+                        component="a"
+                        href={vacancy.alternate_url}
+                        target="_blank"
+                        rel="noopener noreferrer">
+                    Откликнуться
+                </Button>
             </Group>
         </Card>
         </>
