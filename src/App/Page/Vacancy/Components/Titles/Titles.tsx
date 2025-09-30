@@ -3,12 +3,15 @@ import { Card, Text, Badge, Button, Group } from "@mantine/core";
 import type { VacancyType } from "../../../../../types";
 import { formatSalary, formatSchedule, getScheduleClass } from "./Titles-logic"
 import classNames from "classnames";
+import { useNavigate } from 'react-router-dom';
 
 type TitlesProps = {
   vacancy: VacancyType;
 };
 
 const Titles = ({ vacancy }: TitlesProps) => {
+    const navigate = useNavigate();
+
     return(
         <>
         <Card className="title" radius="md">
@@ -31,7 +34,11 @@ const Titles = ({ vacancy }: TitlesProps) => {
             </Group>
 
             <Group className="title-buttons">
-                <Button className="title-buttons-view">Смотреть вакансии</Button>
+                <Button className="title-buttons-view"
+                        onClick={() => navigate(`/vacancy/${vacancy.id}`, { state: { vacancy } })}>
+                        Смотреть вакансии
+                </Button>
+
                 <Button className="title-buttons-reply"
                         component="a"
                         href={vacancy.alternate_url}

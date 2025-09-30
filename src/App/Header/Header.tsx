@@ -1,6 +1,7 @@
 import "./Header.scss"
 import logo from "../../assets/hh.png"
 import account from "../../assets/Vector.png"
+import { NavLink } from "react-router-dom";
 
 const Header = () => {
     return (
@@ -11,15 +12,25 @@ const Header = () => {
         </div>
 
         <div className="header-pages">
-            <div className="header-pages-vacancy">
-                <span>Вакансии FE</span>
-                <div className="active-point"></div>
-            </div>
+        <NavLink
+          to="/"
+          className={({ isActive }) =>
+            isActive ? "header-pages-vacancy active" : "header-pages-vacancy"
+          }
+        >
+          <span>Вакансии FE</span>
+          <div className="active-point"></div>
+        </NavLink>
 
-            <div className="header-pages-about">
-                <img src={account} />
-                <span>Обо мне</span>
-            </div>
+        <NavLink
+          to="/me"
+          className={({ isActive }) =>
+            isActive ? "header-pages-about active" : "header-pages-about"
+          }
+        >
+          <img src={account} />
+          <span>Обо мне</span>
+        </NavLink>
         </div>
     </div>
 )};

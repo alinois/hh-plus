@@ -30,7 +30,7 @@ const Vacancy = () => {
       </Group>
 
       <Group className="all-titles">
-        {isLoading && <div>Загрузка...</div>}
+        {isLoading && <div>Подыскиваем вакансии...</div>}
         {error && <div>Ошибка при загрузке вакансий</div>}
         {data?.items.map(v => (
           <Titles key={v.id} vacancy={v} />

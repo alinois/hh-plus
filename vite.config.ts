@@ -9,7 +9,7 @@ interface ViteConfigWithTest extends UserConfig {
 
 export default defineConfig({
   plugins: [react()],
-  base: '/newhh/',
+  base: '',
   resolve: {
     alias: {
       '@': resolve(__dirname, 'src'),
