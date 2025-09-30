@@ -36,3 +36,16 @@
     font-size: 16px !important;
     font-weight: 400 !important;
 }
+
+.listSearch-input input::-webkit-calendar-picker-indicator,
+.listSearch-input input::-webkit-list-button {
+  display: none !important;
+  -webkit-appearance: none;
+}
+
+.listSearch-input select {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background: none;
+}
