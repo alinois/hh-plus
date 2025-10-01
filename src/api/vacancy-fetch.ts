@@ -31,6 +31,7 @@ export const vacanciesApi = createApi({
     },
   }),
   endpoints: (builder) => ({
+    // Список вакансий
     getVacancies: builder.query<VacanciesResponse, FetchVacanciesParams>({
       query: ({ page = 0, text = '', skills = ['TypeScript','JavaScript','React'], city } = {}) => {
         const params = new URLSearchParams({
@@ -53,7 +54,11 @@ export const vacanciesApi = createApi({
         return `vacancies?${params.toString()}`;
       },
     }),
+
+    getVacancy: builder.query<VacancyType, string>({
+      query: (id) => `vacancies/${id}`,
+    }),
   }),
 });
 
-export const { useGetVacanciesQuery } = vacanciesApi;
+export const { useGetVacanciesQuery, useGetVacancyQuery } = vacanciesApi;

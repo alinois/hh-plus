@@ -40,4 +40,6 @@ export interface VacancyType {
   keySkills?: Skill[];
 
   alternate_url: string;
+
+  description?: string;
 }

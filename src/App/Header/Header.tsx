@@ -12,25 +12,27 @@ const Header = () => {
         </div>
 
         <div className="header-pages">
-        <NavLink
-          to="/"
-          className={({ isActive }) =>
-            isActive ? "header-pages-vacancy active" : "header-pages-vacancy"
-          }
-        >
-          <span>Вакансии FE</span>
-          <div className="active-point"></div>
-        </NavLink>
+          <NavLink
+            to="/"
+            className={({ isActive }) =>
+              isActive ? "header-pages-vacancy active" : "header-pages-vacancy"
+            }
+          >
+            <span className="icon-placeholder"></span>
+            <span className="header-pages-vacancy-name">Вакансии FE</span>
+            <div className="active-point"></div>
+          </NavLink>
 
-        <NavLink
-          to="/me"
-          className={({ isActive }) =>
-            isActive ? "header-pages-about active" : "header-pages-about"
-          }
-        >
-          <img src={account} />
-          <span>Обо мне</span>
-        </NavLink>
+          <NavLink
+            to="/me"
+            className={({ isActive }) =>
+              isActive ? "header-pages-about active" : "header-pages-about"
+            }
+          >
+            <img src={account} />
+            <span className="header-pages-about-name">Обо мне</span>
+            <div className="active-point"></div>
+          </NavLink>
         </div>
     </div>
 )};

@@ -1,5 +1,5 @@
 import { useParams } from 'react-router-dom';
-import { useGetVacanciesQuery } from '../../../api/vacancy-fetch';
+import { useGetVacancyQuery } from '../../../api/vacancy-fetch';
 import { Text, Badge, Group, Button, Card } from '@mantine/core';
 import { formatSalary, formatSchedule, getScheduleClass } from '../Vacancy/Components/Titles/Titles-logic';
 import classNames from 'classnames';
@@ -7,12 +7,12 @@ import './OpenVacancy.scss'
 
 const OpenVacancy = () => {
   const { id } = useParams<{ id: string }>();
-  const { data, isLoading, error } = useGetVacanciesQuery({});
+  const { data, isLoading, error } = useGetVacancyQuery(id || '');
 
   if (isLoading) return <div>Проверяем данные...</div>;
   if (error) return <div>Ошибка при загрузке вакансии</div>;
 
-  const vacancy = data?.items.find(v => v.id === id);
+  const vacancy = data;
 
   if (!vacancy) return <div>Такой вакансии не существует</div>;
 
@@ -50,7 +50,8 @@ const OpenVacancy = () => {
         </Card>
 
         <Card className="descr-card" radius="md">
-            
+            <span className='descr-card-comp'>Компания</span>
+            <div className='descr-card-text' dangerouslySetInnerHTML={{ __html: vacancy.description || 'Описание отсутствует' }}/>
         </Card>
     </Group>
   );

@@ -36,37 +36,62 @@
     margin: auto;
 }
 
-.header-pages-vacancy {
+.header-pages-vacancy,
+.header-pages-about {
     display: flex;
-    flex-direction: row;
     align-items: center;
     gap: 8px;
     font-weight: 500;
     font-size: 14px;
-    color: #000000;
+    color: #0F0F1080;
+    position: relative;
+    padding-right: 14px;
     cursor: pointer;
+    text-decoration: none;
+    transition: color 0.35s ease-in-out;
 }
+
+.header-pages-about:hover,
+.header-pages-vacancy:hover {
+    color: #000000;
+}
+
+.active .header-pages-about-name,
+.active .header-pages-vacancy-name {
+    color: #000000;
+}
+
+
 
 .active-point {
-    display: flex;
-    margin-top: 1px;
+    position: absolute;
+    right: 0;
+    top: 50%;
+    opacity: 0;
+    transform: translateY(-50%);
     width: 6px;
     height: 6px;
-    background-color: #4263EB;
     border-radius: 50%;
-    cursor: default;
+    background: #364FC7;
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
 }
 
+.active .active-point {
+    opacity: 1;
+}
+
+
 .header-pages-about {
-    display: flex;
-    gap: 4px;
-    align-items: center;
-    font-weight: 500;
-    font-size: 14px;
-    color: #0F0F1080;
-    cursor: pointer;
     img {
         width: 18px;
         height: 18px;
     }
+}
+
+.header-pages-vacancy .icon-placeholder {
+  width: 18px;
+  height: 18px;
+  display: inline-block;  
+  flex-shrink: 0;          
 }
