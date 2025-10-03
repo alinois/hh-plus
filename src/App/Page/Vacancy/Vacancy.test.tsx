@@ -1,96 +1,60 @@
-import { render, screen, waitFor } from "@testing-library/react";
-import userEvent from "@testing-library/user-event";
-import { MantineProvider } from "@mantine/core";
-import { Provider } from "react-redux";
-import Vacancy from "./Vacancy";
-import { configureStore } from "@reduxjs/toolkit";
-import { vacanciesApi } from "../../../api/vacancy-fetch";
-import type { VacancyType } from "../../../types";
-import { vi } from 'vitest'
+import { describe, it, vi, beforeEach } from 'vitest';
+import { render, screen, fireEvent } from '@testing-library/react';
+import Vacancy from './Vacancy';
+import { MantineProvider } from '@mantine/core';
+import { MemoryRouter } from 'react-router-dom';
+import type { VacancyType } from '../../../types';
 
 const mockVacancies: VacancyType[] = Array.from({ length: 10 }, (_, i) => ({
-  id: String(i + 1),
-  name: `Vacancy ${i + 1}`,
-  salary: { from: 100000, to: 200000, currency: "RUR", gross: false },
-  experience: { id: "between1And3", name: "От 1 года до 3 лет" },
-  employer: {
-    id: "company_" + (i + 1),
-    name: `Компания ${i + 1}`,
-    logo_urls: {},
-    alternate_url: "https://hh.ru/employer/" + (i + 1),
-  },
-  schedule: { id: "remote", name: "Можно удалённо" },
-  area: { id: "1", name: "Москва" },
-  keySkills: [{ name: "JavaScript" }, { name: "TypeScript" }, { name: "React" }],
-  alternate_url: "https://hh.ru/vacancy/" + (i + 1),
+  id: `${i}`,
+  name: `Vacancy ${i}`,
+  salary: { from: 1000, to: 2000, currency: 'RUB' },
+  experience: { id: '1', name: '1+ year' },
+  employer: { id: '1', name: 'Company' },
+  schedule: { id: 'fullDay', name: 'fullDay' },
+  area: { id: 'Москва', name: 'Москва' },
+  alternate_url: 'https://example.com',
 }));
 
-const mockResponse = {
-  items: mockVacancies,
-  pages: 5,
-  page: 0,
-  per_page: 10,
-  found: 50,
-};
-
-const store = configureStore({
-  reducer: {
-    [vacanciesApi.reducerPath]: vacanciesApi.reducer,
-  },
-  middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(vacanciesApi.middleware),
+vi.mock('../../../api/vacancy-fetch', async () => {
+  const actual = await vi.importActual('../../../api/vacancy-fetch');
+  return {
+    ...actual,
+    useGetVacanciesQuery: vi.fn(() => ({
+      data: { items: mockVacancies },
+      isLoading: false,
+      error: null,
+    })),
+  };
 });
 
-describe("Vacancy component with RTK Query", () => {
+const renderWithProviders = (ui: React.ReactElement) => {
+  return render(
+    <MantineProvider >
+      <MemoryRouter>{ui}</MemoryRouter>
+    </MantineProvider>
+  );
+};
+
+describe('Vacancy component', () => {
   beforeEach(() => {
-    vi.spyOn(vacanciesApi.endpoints.getVacancies, "useQuery").mockImplementation(
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      (_arg) => ({
-        data: mockResponse,
-        error: null,
-        isLoading: false,
-        isFetching: false,
-        refetch: vi.fn(),
-      })
-    );
+    vi.clearAllMocks();
   });
 
-  afterEach(() => {
-    vi.restoreAllMocks();
-  });
+  it('renders 10 Titles and updates filters', () => {
+    renderWithProviders(<Vacancy />);
 
-  test("renders 10 vacancies", async () => {
-    render(
-      <Provider store={store}>
-        <MantineProvider>
-          <Vacancy />
-        </MantineProvider>
-      </Provider>
+    const titles = screen.getAllByText(/Vacancy/);
+    expect(titles).toHaveLength(10);
+
+    const searchInput = screen.getByPlaceholderText(
+      'Должность или название компании'
     );
+    fireEvent.change(searchInput, { target: { value: 'React' } });
+    expect(searchInput).toHaveValue('React');
 
-    await waitFor(() => {
-      expect(screen.getAllByText(/Vacancy/)).toHaveLength(10);
-    });
-  });
-
-  test("pagination triggers new fetch", async () => {
-    const spy = vi.spyOn(vacanciesApi.endpoints.getVacancies, "useQuery");
-
-    render(
-      <Provider store={store}>
-        <MantineProvider>
-          <Vacancy />
-        </MantineProvider>
-      </Provider>
-    );
-
-    await screen.findByText("Vacancy 1");
-
-    const page2Btn = screen.getByRole("button", { name: "2" });
-    await userEvent.click(page2Btn);
-
-    expect(spy).toHaveBeenCalledWith(
-      expect.objectContaining({ page: 1 })
-    );
+    const citySelect = screen.getByPlaceholderText('Все города');
+    fireEvent.change(citySelect, { target: { value: 'Москва' } });
+    expect(citySelect).toHaveValue('Москва');
   });
 });

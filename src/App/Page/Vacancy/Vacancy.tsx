@@ -1,17 +1,19 @@
-import { useState } from 'react';
 import { Group, Pagination } from '@mantine/core';
 import ListSearch from './Components/ListSearch/ListSearch';
 import Skills from './Components/Skills/Skills';
 import Titles from './Components/Titles/Titles';
 import { Cities } from './Components/Cities/Cities';
 import { useGetVacanciesQuery } from '../../../api/vacancy-fetch';
+import { useVacancySearchParams } from '../../../hooks/useVacancySearchParams';
 import './Vacancy.scss';
 
 const Vacancy = () => {
-  const [page, setPage] = useState(0);
-  const [searchQuery, setSearchQuery] = useState('');
-  const [skills, setSkills] = useState(['TypeScript', 'JavaScript', 'React']);
-  const [city, setCity] = useState('Все города');
+  const {
+    page, setPage,
+    text: searchQuery, setText: setSearchQuery,
+    skills, setSkills,
+    city, setCity,
+  } = useVacancySearchParams();
 
   const { data, error, isLoading } = useGetVacanciesQuery({
     page,

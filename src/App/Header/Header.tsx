@@ -7,13 +7,13 @@ const Header = () => {
     return (
     <div className="header">
         <div className="header-title">
-            <a className="header-title-logo"><img src={logo} /></a>
+            <a className="header-title-logo"><img src={logo} alt="logo" /></a>
             <span className="header-title-topic_name">.FrontEnd</span>
         </div>
 
         <div className="header-pages">
           <NavLink
-            to="/"
+            to="/vacancy"
             className={({ isActive }) =>
               isActive ? "header-pages-vacancy active" : "header-pages-vacancy"
             }
@@ -29,7 +29,7 @@ const Header = () => {
               isActive ? "header-pages-about active" : "header-pages-about"
             }
           >
-            <img src={account} />
+            <img src={account} alt="account" />
             <span className="header-pages-about-name">Обо мне</span>
             <div className="active-point"></div>
           </NavLink>

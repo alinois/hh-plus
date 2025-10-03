@@ -1,46 +1,57 @@
-import { render, screen } from "@testing-library/react";
-import Titles from "./Titles";
+import { describe, it, vi, beforeEach } from 'vitest';
+import { render, screen, fireEvent } from '@testing-library/react';
+import { MemoryRouter } from 'react-router-dom';
+import Titles from './Titles';
+import type { VacancyType } from '../../../../../types';
+import type * as RR from 'react-router-dom';
 import { MantineProvider } from '@mantine/core';
-import type { VacancyType } from "../../../../../types";
 
 const mockVacancy: VacancyType = {
-  id: "1",
-  name: "React Frontend-разработчик",
-  salary: {
-    from: 100000,
-    to: 160000,
-    currency: "RUR",
-  },
-  experience: {
-    id: "experience",
-    name: "От 1 года до 3 лет",
-  },
-  employer: {
-    id: "employer",
-    name: "Студия Oxem",
-  },
-  schedule: {
-    id: "remote",
-    name: "Можно удалённо",
-  },
-  area: {
-    id: "area",
-    name: "Москва",
-  },
-  alternate_url: "https://hh.ru/vacancy/123",
+  id: '1',
+  name: 'Test Vacancy',
+  salary: { from: 1000, to: 2000, currency: 'RUB' },
+  experience: { id: '1', name: '1+ year' },
+  employer: { id: '1', name: 'Company' },
+  schedule: { id: 'fullDay', name: 'fullDay' },
+  area: { id: 'Москва', name: 'Москва' },
+  alternate_url: 'https://example.com',
 };
 
-test("fetch working correctly and have properties", async () => {
-  render(
-    <MantineProvider>
-      <Titles vacancy={mockVacancy}/>
-    </MantineProvider>
-  );
+const navigateMock = vi.fn();
 
-  expect(await screen.findByText('React Frontend-разработчик')).toBeInTheDocument();
-  expect(await screen.findByText('100000 - 160000 RUR')).toBeInTheDocument();
-  expect(await screen.findByText('От 1 года до 3 лет')).toBeInTheDocument();
-  expect(await screen.findByText('Студия Oxem')).toBeInTheDocument();
-  expect(await screen.findByText('Можно удалённо')).toBeInTheDocument();
-  expect(await screen.findByText('Москва')).toBeInTheDocument();
+vi.mock('react-router-dom', async () => {
+  const actual: typeof RR = await vi.importActual('react-router-dom');
+  return {
+    ...actual,
+    useNavigate: () => navigateMock,
+  };
+});
+
+describe('Titles component', () => {
+  beforeEach(() => {
+    navigateMock.mockClear();
+  });
+
+  it('renders vacancy data and buttons work', () => {
+    render(
+      <MantineProvider>
+        <MemoryRouter>
+          <Titles vacancy={mockVacancy} />
+        </MemoryRouter>
+      </MantineProvider>
+    );
+
+    expect(screen.getByText('Test Vacancy')).toBeInTheDocument();
+    expect(screen.getByText('1000 - 2000 RUB')).toBeInTheDocument();
+    expect(screen.getByText('1+ year')).toBeInTheDocument();
+    expect(screen.getByText('Company')).toBeInTheDocument();
+    expect(screen.getByText('Москва')).toBeInTheDocument();
+
+    const viewButton = screen.getByText('Смотреть вакансии');
+    fireEvent.click(viewButton);
+    expect(navigateMock).toHaveBeenCalledWith('/vacancy/1', { state: { vacancy: mockVacancy } });
+
+    const replyButton = screen.getByRole('link', { name: /Откликнуться/i });
+    expect(replyButton).toHaveAttribute('href', 'https://example.com');
+  });
 });

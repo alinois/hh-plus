@@ -9,12 +9,12 @@ const OpenVacancy = () => {
   const { id } = useParams<{ id: string }>();
   const { data, isLoading, error } = useGetVacancyQuery(id || '');
 
-  if (isLoading) return <div>Проверяем данные...</div>;
-  if (error) return <div>Ошибка при загрузке вакансии</div>;
+  if (isLoading) return <div className='loading-text'>Проверяем данные...</div>;
+  if (error) return <div className='loading-text'>Ошибка при загрузке вакансии</div>;
 
   const vacancy = data;
 
-  if (!vacancy) return <div>Такой вакансии не существует</div>;
+  if (!vacancy) return <div className='loading-text'>Такой вакансии не существует</div>;
 
   return (
     <Group className='card-n-descr'>

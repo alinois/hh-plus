@@ -1,6 +1,6 @@
-import type { Vacancy } from "../../../../../types";
+import type { VacancyType } from "../../../../../types";
 
-export const formatSalary = (salary: Vacancy["salary"]) => {
+export const formatSalary = (salary: VacancyType["salary"]) => {
   if (!salary) return "Зарплата не указана";
   const from = salary.from;
   const to = salary.to;
@@ -12,7 +12,7 @@ export const formatSalary = (salary: Vacancy["salary"]) => {
   return "Зарплата не указана";
 };
 
-export const formatSchedule = (schedule: Vacancy['schedule']) => {
+export const formatSchedule = (schedule: VacancyType['schedule']) => {
   switch (schedule?.id) {
     case "remote":
       return "Можно удалённо";
@@ -28,7 +28,7 @@ export const formatSchedule = (schedule: Vacancy['schedule']) => {
   }
 };
 
-export const getScheduleClass = (schedule: Vacancy['schedule']) => {
+export const getScheduleClass = (schedule: VacancyType['schedule']) => {
   switch (schedule?.id) {
     case "remote": 
       return "badge-remote";
